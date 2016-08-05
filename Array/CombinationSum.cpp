@@ -10,17 +10,22 @@ public:
         return res;
     }
     
-    void helper(vector<vector<int>> &res, vector<int> &nums, vector<int> candidates, int target, int i) {
+    void helper(vector<vector<int>> &res, vector<int> &nums, vector<int> candidates, int target, int st) {
         if(target==0)
             res.push_back(nums);
+            
         else {
-            while(i<candidates.size() && target-candidates[i]>=0) {
-                nums.push_back(candidates[i]);
-                helper(res, nums, candidates, target-candidates[i], i);
-                i++;
-                nums.pop_back();
+                int repeated = -1; 
+                for(int i = st; i < candidates.size(); i++) {
+                    if(repeated != candidates[i] && target-candidates[i]>=0) {
+                        nums.push_back(candidates[i]);
+                        helper(res, nums, candidates, target-candidates[i], i+1);
+                        repeated = candidates[i];
+                        nums.pop_back();
+                    }
                 
-            }
+                }
+
         }
     }
 };
